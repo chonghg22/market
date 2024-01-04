@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<configuration>
+
+    <property name="LOGS_ABSOLUTE_PATH" value="/Users/three/project/log/" />
+
+    <property name="LOGS_PATTERN" value="[%d{yyyy-MM-dd HH:mm:ss.SSS}][%thread][%-5level][%F:%L][%M] - %msg%n" /> <!-- :%-4relative -->
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+
+            <!-- <Pattern>%d{HH:mm} %-5level %logger{36} - %msg%n</Pattern> -->
+            <Pattern>${LOGS_PATTERN}</Pattern>
+        </layout>
+    </appender>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOGS_PATTERN}</pattern>
+        </encoder>
+    </appender>
+    <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS_ABSOLUTE_PATH}/logback.log</file>
+        <encoder>
+            <pattern>${LOGS_PATTERN}</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOGS_ABSOLUTE_PATH}/logback.%d{yyyyMMdd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- or whenever the file size reaches 100MB -->
+                <maxFileSize>100MB</maxFileSize>
+                <!-- kb, mb, gb -->
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!-- 30일 지난 로그 삭제
+            <maxHistory>30</maxHistory>
+             -->
+        </rollingPolicy>
+    </appender>
+
+    <logger name="com.apress.spring" level="DEBUG">
+        <appender-ref ref="CONSOLE" />
+    </logger>
+
+    <logger name="org.springframework.web" level="INFO">
+        <appender-ref ref="ROLLING" />
+    </logger>
+
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+    <root level="INFO">
+        <appender-ref ref="ROLLING" />
+    </root>
+
+    <logger name="kr.co.market" level="DEBUG" />
+    <logger name="org.springframework.jdbc.core.JdbcTemplate" level="DEBUG" />
+</configuration>

@@ -1,0 +1,23 @@
+.bi-home::before {
+    content:url(../img/home.png);
+}
+
+.bi-car::before {
+    content:url(../img/car.png);
+}
+
+.bi-board::before {
+    content:url(../img/writing.png);
+}
+
+.bi-wash-total{
+    content:url(../img/wash-total.png);
+}
+
+.bi-self-wash{
+    content:url(../img/self-wash.png);
+}
+
+.bi-no-self{
+    content:url(../img/no-selft.png);
+}

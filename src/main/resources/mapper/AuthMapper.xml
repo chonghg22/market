@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.market.auth.dao.AuthDao">
+	<select id="selectCpMemberInfo" parameterType="kr.co.market.auth.vo.LoginVo" resultType="kr.co.market.auth.vo.AuthVo">
+		SELECT
+		   PASSWD 			as passwd,
+		   SALT 			as salt,
+		   USER_NAME 		AS userName,
+		   USER_ID 			as userId,
+		   ROLE 			as role,
+		   ACCESS_IP 		as accessIp
+		FROM MARKET_ADMIN
+		WHERE USER_ID = #{loginId}
+	</select>
+	<select id="selectCheckId" parameterType="int" resultType="String">
+		SELECT
+		    PASSWD as passwd
+		from MARKET_ADMIN
+		where USER_ID = #{id}
+	</select>
+
+	<select id="selectGetPhone" parameterType="String" resultType="String">
+		select
+		    PHONE
+		from MARKET_ADMIN
+		where is_admin = 1
+		  and email = #{id}
+	</select>
+
+	<insert id="insertCallOPTSender" parameterType="map">
+		insert into MARKET_ADMIN_LOG(
+			LOGIN_ID,
+			LOGIN_IP,
+			LOGIN_RESULT_MSG,
+			LOGIN_RESULT
+		)value(
+			#{id},
+		    #{code},
+		    #{ipadress},
+		    #{memo}
+		)
+	</insert>
+
+	<insert id="insertLoginLog" parameterType="kr.co.market.auth.vo.LoginVo" useGeneratedKeys="true" keyProperty="id">
+		insert into MARKET_ADMIN_LOG(
+			LOGIN_ID,
+			LOGIN_IP
+		)value(
+			#{loginId},
+		    #{loginIp}
+		)
+	</insert>
+
+	<update id="updateLoginLog" parameterType="kr.co.market.auth.vo.LoginVo">
+		update MARKET_ADMIN_LOG
+		set LOGIN_RESULT = #{loginResult}
+		  , LOGIN_RESULT_MSG = #{loginResultMsg}
+		where ID = #{id}
+	</update>
+
+	<update id="updateLastLogIn" parameterType="kr.co.market.auth.vo.AuthVo">
+		update MARKET_ADMIN set LAST_LOGIN =now() where USER_ID = #{loginId}
+	</update>
+
+	<update id="deleteAdminRole" parameterType="kr.co.market.auth.vo.AuthVo">
+		update MARKET_ADMIN set ROLE = 'DUPLICATED' WHERE USER_ID = #{loginId}
+	</update>
+</mapper>

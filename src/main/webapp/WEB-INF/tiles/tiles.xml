@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+
+    <!--// main layout -->
+    <definition name="default" template="/WEB-INF/tiles/template.jsp">
+        <put-attribute name="header" value="/WEB-INF/layout/header.jsp" />
+        <put-attribute name="gnb" value="/WEB-INF/layout/gnb.jsp" />
+        <put-attribute name="lnb" value="/WEB-INF/layout/lnb.jsp" />
+    </definition>
+
+    <!-- http://domain/ -->
+    <definition name="/" extends="default">
+        <put-attribute name="body" value="/WEB-INF/views/index.jsp" />
+    </definition>
+
+    <!-- login -->
+    <definition name="loginLayout" template="/WEB-INF/tiles/loginTemplate.jsp">
+        <put-attribute name="header" value="/WEB-INF/layout/header.jsp" />
+    </definition>
+
+    <!-- http://domain/login -->
+    <definition name="login" extends="loginLayout">
+        <put-attribute name="body" value="/WEB-INF/views/login.jsp" />
+    </definition>
+
+    <!-- http://domain/error -->
+    <definition name="error" extends="default">
+        <put-attribute name="content" value="/WEB-INF/views/error.jsp" />
+    </definition>
+
+    <definition name="*" extends="default">
+        <put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
+    </definition>
+    <definition name="*/*" extends="default">
+        <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
+    </definition>
+    <definition name="*/*/*" extends="default">
+        <put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp" />
+    </definition>
+
+</tiles-definitions>

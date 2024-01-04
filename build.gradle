@@ -1,0 +1,101 @@
+plugins {
+    id 'org.springframework.boot' version '2.2.4.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'java'
+    id 'war'
+}
+
+group = 'kr.co'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext['log4j2.version'] = '2.15.0'
+
+dependencies {
+
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'  // 필수
+    implementation 'org.springframework.boot:spring-boot-starter-web'  // 선택사항
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'io.github.bonigarcia:webdrivermanager:5.3.0'
+    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.8.2'
+
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+    implementation 'javax.servlet:jstl:1.2'
+    implementation 'mysql:mysql-connector-java'
+    implementation group: 'org.springframework.security', name: 'spring-security-taglibs', version: '5.6.3'
+    implementation group: 'org.apache.tiles', name: 'tiles-jsp', version: '3.0.8'
+
+    implementation group: 'commons-httpclient', name: 'commons-httpclient', version: '3.1'
+    implementation group: 'commons-net', name: 'commons-net', version: '3.6'
+    implementation group: 'javax.mail', name: 'javax.mail-api', version: '1.6.2'
+
+    //엑셀 다운로드
+    implementation group: 'org.apache.poi', name: 'poi', version: '3.9'
+    implementation group: 'org.apache.poi', name: 'poi-contrib', version: '3.6'
+    implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '3.9'
+    implementation group: 'org.apache.poi', name: 'poi-ooxml-schemas', version: '3.9'
+    implementation group: 'org.apache.poi', name: 'poi-scratchpad', version: '3.9'
+
+    //이미지 에러 처리
+    implementation group: 'com.twelvemonkeys.common', name: 'common-lang', version: '3.4.2'
+    implementation group: 'com.twelvemonkeys.common', name: 'common-io', version: '3.4.2'
+    implementation group: 'com.twelvemonkeys.common', name: 'common-image', version: '3.4.2'
+    implementation group: 'com.twelvemonkeys.imageio', name: 'imageio-core', version: '3.4.2'
+    implementation group: 'com.twelvemonkeys.imageio', name: 'imageio-metadata', version: '3.4.2'
+    implementation group: 'com.twelvemonkeys.imageio', name: 'imageio-jpeg', version: '3.4.2'
+
+    implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'
+
+    // https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter
+    implementation group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: '2.0.0'
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.2.4.RELEASE'
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-thymeleaf
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '2.2.4.RELEASE'
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: '2.2.4.RELEASE'
+    // https://mvnrepository.com/artifact/org.springframework.retry/spring-retry
+    implementation group: 'org.springframework.retry', name: 'spring-retry', version: '1.1.5.RELEASE'
+    // https://mvnrepository.com/artifact/org.aspectj/aspectjweaver
+    implementation group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.5'
+
+    implementation group: 'org.mybatis', name: 'mybatis-typehandlers-jsr310', version: '1.0.2'
+    implementation group: 'com.ifrabbit', name: 'spring-data-mybatis', version: '1.0.17.RELEASE'
+    //implementation 'org.apache.httpcomponents:httpclient:4.5'
+    implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation group: 'com.google.guava', name: 'guava', version: '30.1-jre'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc'
+    implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.2.0'
+
+    compileOnly ('org.projectlombok:lombok')
+    annotationProcessor 'org.projectlombok:lombok'
+
+    implementation 'org.springframework.boot:spring-boot-devtools'
+
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+
+    implementation fileTree(dir:'libs', include: ['*.jar'])
+}
+
+test {
+    useJUnitPlatform()
+}
