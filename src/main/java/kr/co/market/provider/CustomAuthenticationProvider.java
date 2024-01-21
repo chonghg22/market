@@ -1,8 +1,8 @@
 package kr.co.market.provider;
 
-import kr.co.market.auth.service.AuthService;
-import kr.co.market.auth.vo.AuthVo;
-import kr.co.market.auth.vo.LoginVo;
+import kr.co.market.product.service.ProductService;
+import kr.co.market.product.vo.AuthVo;
+import kr.co.market.product.vo.LoginVo;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +30,11 @@ import java.util.Map;
 @Slf4j
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 	@Autowired
-	private AuthService authService;
+	private ProductService productService;
 
-	@Autowired
-	@Qualifier("sessionRegistry")
-	private SessionRegistry sessionRegistry;
+//	@Autowired
+//	@Qualifier("sessionRegistry")
+//	private SessionRegistry sessionRegistry;
 
 	@Autowired(required = false)
 	private HttpServletRequest request;
@@ -55,48 +55,48 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 		log.info("login id = {}, ip = {}", loginInfo.getLoginId(), loginInfo.getLoginIp());
 
-		Map<String, Object> authMap = authService.getLogin(loginInfo);
+//		Map<String, Object> authMap = productService.getLogin(loginInfo);
 
 		AuthVo authVo;
-		UsernamePasswordAuthenticationToken auth;
-		if( authMap == null ){
-			log.error(">>>> authMap is null");
-			throw new BadCredentialsException("관리자 계정을 확인해주세요.");
-		}  else {
-			String resultCode = (String) authMap.get("resultCode");
-			if( "0000".equals(resultCode) ) {
-				authVo = (AuthVo) authMap.get("authVo");
-				if(!"ADMIN ".equals(authVo.getRole())){
-					log.error("접근 권한이 없습니다. {}", authVo.getRole());
-					throw new BadCredentialsException("접근 권한이 없습니다. \n관리자에게 문의해 주세요.");
-				}
+		UsernamePasswordAuthenticationToken auth = null;
+//		if( authMap == null ){
+//			log.error(">>>> authMap is null");
+//			throw new BadCredentialsException("관리자 계정을 확인해주세요.");
+//		}  else {
+//			String resultCode = (String) authMap.get("resultCode");
+//			if( "0000".equals(resultCode) ) {
+//				authVo = (AuthVo) authMap.get("authVo");
+//				if(!"ADMIN ".equals(authVo.getRole())){
+//					log.error("접근 권한이 없습니다. {}", authVo.getRole());
+//					throw new BadCredentialsException("접근 권한이 없습니다. \n관리자에게 문의해 주세요.");
+//				}
+//
+//				//세션 information 에서 세션 정보 조회
+//				List<Object> principals = sessionRegistry.getAllPrincipals();
+//				for (Object principal: principals) {
+//					List<SessionInformation> se = sessionRegistry.getAllSessions(principal, false);
+//					if(se.size() > 0 && principal.toString().indexOf((String) authentication.getPrincipal()) > -1){
+//						log.error("reduplication session");
+//						SessionInformation sessionInformation = sessionRegistry.getSessionInformation(se.get(0).getSessionId());
+//						sessionRegistry.removeSessionInformation(sessionInformation.getSessionId());
+//
+//						productService.deleteAdminRole(loginInfo);
+//						sessionInformation.expireNow();
+//					}
+//				}
+//
+//				auth = new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), authVo.getAuthorities());
+//				auth.setDetails(authVo);
+//			} else {
+//				log.error(">>>> Login failed. resultCode:{}", resultCode);
+//				throw new BadCredentialsException("아이디 또는 비밀번호를 확인 하세요.");
+//			}
+//		}
 
-				//세션 information 에서 세션 정보 조회
-				List<Object> principals = sessionRegistry.getAllPrincipals();
-				for (Object principal: principals) {
-					List<SessionInformation> se = sessionRegistry.getAllSessions(principal, false);
-					if(se.size() > 0 && principal.toString().indexOf((String) authentication.getPrincipal()) > -1){
-						log.error("reduplication session");
-						SessionInformation sessionInformation = sessionRegistry.getSessionInformation(se.get(0).getSessionId());
-						sessionRegistry.removeSessionInformation(sessionInformation.getSessionId());
-
-						authService.deleteAdminRole(loginInfo);
-						sessionInformation.expireNow();
-					}
-				}
-
-				auth = new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), authentication.getCredentials(), authVo.getAuthorities());
-				auth.setDetails(authVo);
-			} else {
-				log.error(">>>> Login failed. resultCode:{}", resultCode);
-				throw new BadCredentialsException("아이디 또는 비밀번호를 확인 하세요.");
-			}
-		}
-
-		if(auth == null) {
-			log.error(">>>> auth is null");
-			throw new BadCredentialsException("시스템 내부 오류가 발생하였습니다. \n관리자에게 문의해 주세요.");
-		}
+//		if(auth == null) {
+//			log.error(">>>> auth is null");
+//			throw new BadCredentialsException("시스템 내부 오류가 발생하였습니다. \n관리자에게 문의해 주세요.");
+//		}
 
 		return auth;
 	}

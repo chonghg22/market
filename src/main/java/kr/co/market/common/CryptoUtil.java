@@ -10,7 +10,6 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
-import javax.xml.bind.DatatypeConverter;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.math.BigInteger;
@@ -135,7 +134,8 @@ public class CryptoUtil {
                 cipher.init(1, getKey());
                 byte[] inputBytes1 = strVal.getBytes("UTF-8");
                 byte[] outputBytes1 = cipher.doFinal(inputBytes1);
-                String strOutput = DatatypeConverter.printBase64Binary(outputBytes1);
+//                String strOutput = DatatypeConverter.printBase64Binary(outputBytes1);
+                String strOutput = "";
                 return strOutput;
             } else {
                 return "";
@@ -151,7 +151,8 @@ public class CryptoUtil {
             if (strVal != null && strVal.length() != 0) {
                 Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
                 cipher.init(2, getKey());
-                byte[] inputBytes1 = DatatypeConverter.parseBase64Binary(strVal);
+//                byte[] inputBytes1 = DatatypeConverter.parseBase64Binary(strVal);
+                byte[] inputBytes1 = null;
                 byte[] outputBytes2 = cipher.doFinal(inputBytes1);
                 String strResult = new String(outputBytes2, "UTF-8");
                 return strResult;

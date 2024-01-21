@@ -6,6 +6,18 @@
 <script>
     $(document).ready(function () {
         $("#userid").focus();
+        $.ajax({
+            url: '/searchProduct', // 실제 서버 URL로 변경해야 합니다.
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                // 성공적으로 데이터를 받았을 때 처리
+                handleResponse(data);
+            },
+            error: function (xhr, status, error) {
+                console.error('Ajax request failed:', status, error);
+            }
+        });
     });
 
     function chkForm(formobj) {
@@ -60,6 +72,21 @@
     function pressEnter() {
         checkLoginCode();
     }
+
+
+
+    function handleResponse(data) {
+        // itemList를 이용하여 원하는 작업 수행
+        for (var i = 0; i < data.length; i++) {
+            var item = data[i];
+            console.log("Title: " + item.title);
+            console.log("Link: " + item.link);
+            console.log("Image: " + item.image);
+            console.log("Lowest Price: " + item.lprice);
+            console.log("Mall Name: " + item.mallName);
+            // 추가 필요한 정보들에 대한 처리
+        }
+    }
 </script>
 <style>
   .popmain {
@@ -75,10 +102,10 @@
 </style>
 
 
-<sec:authorize access="isAuthenticated()">
-    <script>goMain();
-    alert("?")</script>
-</sec:authorize>
+<%--<sec:authorize access="isAuthenticated()">--%>
+<%--    <script>goMain();--%>
+<%--    alert("?")</script>--%>
+<%--</sec:authorize>--%>
 
 <sec:authorize access="isAnonymous()">
 
