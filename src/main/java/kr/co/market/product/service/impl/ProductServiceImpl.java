@@ -36,13 +36,11 @@ public class ProductServiceImpl implements ProductService {
     private String clientSecret;
 
     @Override
-    public void insertProduct(LoginVo loginInfo) {
-        productDao.insertProduct(loginInfo);
-    }
-
-    @Override
     public List<ProductDto> getSearchProduct(String searchWord) {
         List<ProductDto> productDtoList = ProductDataConvert.productApiConvertedData(clientId,clientSecret,searchWord);
+        for(ProductDto productDto : productDtoList){
+            productDao.upsertProduct(productDto);
+        }
         return productDtoList;
     }
 

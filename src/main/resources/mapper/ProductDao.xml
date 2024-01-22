@@ -1,68 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.co.market.auth.dao.ProductDao">
-	<select id="selectCpMemberInfo" parameterType="kr.co.market.product.vo.LoginVo" resultType="kr.co.market.product.vo.AuthVo">
-		SELECT
-		   PASSWD 			as passwd,
-		   SALT 			as salt,
-		   USER_NAME 		AS userName,
-		   USER_ID 			as userId,
-		   ROLE 			as role,
-		   ACCESS_IP 		as accessIp
-		FROM MARKET_ADMIN
-		WHERE USER_ID = #{loginId}
-	</select>
-	<select id="selectCheckId" parameterType="int" resultType="String">
-		SELECT
-		    PASSWD as passwd
-		from MARKET_ADMIN
-		where USER_ID = #{id}
-	</select>
+<mapper namespace="kr.co.market.product.dao.ProductDao">
+	<insert id="upsertProduct" parameterType="kr.co.market.product.domain.dto.ProductDto">
+		INSERT INTO market_product (
+						TITLE,
+						LINK,
+						IMAGE,
+						LPRICE,
+						MALL_NAME,
+						PRODUCT_ID,
+						PRODUCT_TYPE,
+						BRAND,
+						MARKER,
+						CATEGORY1,
+						CATEGORY2,
+						CATEGORY3,
+						CATEGORY4,
+						REG_DATE,
+						POPULAR,
+						IS_DISPLAY,
+						REG_USER
+		                   )
+		VALUES (
+				#{title},
+				#{link},
+				#{image},
+				#{lprice},
+				#{mallName},
+				#{productId},
+				#{productType},
+				#{brand},
+				#{marker},
+				#{category1},
+				#{category2},
+				#{category3},
+				#{category4},
+				now(),
+				0,
+				0,
+				'jack'
+		        )
+			ON DUPLICATE KEY UPDATE
+				TITLE = VALUES(TITLE),
+				LINK = VALUES(LINK),
+				IMAGE = VALUES(IMAGE),
+				LPRICE = VALUES(LPRICE),
+				MALL_NAME = VALUES(MALL_NAME),
+				PRODUCT_ID = VALUES(PRODUCT_ID),
+				PRODUCT_TYPE = VALUES(PRODUCT_TYPE),
+				BRAND = VALUES(BRAND),
+				MARKER = VALUES(MARKER),
+				CATEGORY1 = VALUES(CATEGORY1),
+				CATEGORY2 = VALUES(CATEGORY2),
+				CATEGORY3 = VALUES(CATEGORY3),
+				CATEGORY4 = VALUES(CATEGORY4),
+				MOD_DATE = now(),
+				POPULAR = 0,
+				IS_DISPLAY = 0,
+				MOD_USER = 'jack';
 
-	<select id="selectGetPhone" parameterType="String" resultType="String">
-		select
-		    PHONE
-		from MARKET_ADMIN
-		where is_admin = 1
-		  and email = #{id}
-	</select>
-
-	<insert id="insertCallOPTSender" parameterType="map">
-		insert into MARKET_ADMIN_LOG(
-			LOGIN_ID,
-			LOGIN_IP,
-			LOGIN_RESULT_MSG,
-			LOGIN_RESULT
-		)value(
-			#{id},
-		    #{code},
-		    #{ipadress},
-		    #{memo}
-		)
 	</insert>
-
-	<insert id="insertLoginLog" parameterType="kr.co.market.product.vo.LoginVo" useGeneratedKeys="true" keyProperty="id">
-		insert into MARKET_ADMIN_LOG(
-			LOGIN_ID,
-			LOGIN_IP
-		)value(
-			#{loginId},
-		    #{loginIp}
-		)
-	</insert>
-
-	<update id="updateLoginLog" parameterType="kr.co.market.product.vo.LoginVo">
-		update MARKET_ADMIN_LOG
-		set LOGIN_RESULT = #{loginResult}
-		  , LOGIN_RESULT_MSG = #{loginResultMsg}
-		where ID = #{id}
-	</update>
-
-	<update id="updateLastLogIn" parameterType="kr.co.market.product.vo.AuthVo">
-		update MARKET_ADMIN set LAST_LOGIN =now() where USER_ID = #{loginId}
-	</update>
-
-	<update id="deleteAdminRole" parameterType="kr.co.market.product.vo.AuthVo">
-		update MARKET_ADMIN set ROLE = 'DUPLICATED' WHERE USER_ID = #{loginId}
-	</update>
 </mapper>

@@ -18,11 +18,7 @@ import java.util.Map;
 public class ProductDataConvert {
 
     public static List<ProductDto> productApiConvertedData(String clientId, String clientSecret,String searchWord){
-        System.out.println("clientId = " + clientId);
-        System.out.println("clientSecret = " + clientSecret);
-        System.out.println("searchWord = " + searchWord);
         String Naverapi = NaverSearchApi.naverAPICall(clientId,clientSecret,searchWord);
-        System.out.println("Naverapi = " + Naverapi);
         List<ProductDto> ProductDtoList = new ArrayList<>();
         Product product = new Product();
         try {
@@ -32,8 +28,6 @@ public class ProductDataConvert {
 
             for (Object item : itemsArray) {
                 JSONObject itemObject = (JSONObject) item;
-                System.out.println("itemObject = " + itemObject);
-                System.out.println("itemObject.get(\"title\") = " + itemObject.get("title"));
                 product.setTitle(itemObject.get("title").toString());
                 product.setLink((String)itemObject.get("link"));
                 product.setImage((String)itemObject.get("image"));

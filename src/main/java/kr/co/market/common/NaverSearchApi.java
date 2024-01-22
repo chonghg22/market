@@ -9,25 +9,32 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class NaverSearchApi {
-
+//    일반상품	가격비교 상품	1
+//    일반상품	가격비교 비매칭 일반상품	2
+//    일반상품	가격비교 매칭 일반상품	3
+//    중고상품	가격비교 상품	4
+//    중고상품	가격비교 비매칭 일반상품	5
+//    중고상품	가격비교 매칭 일반상품	6
+//    단종상품	가격비교 상품	7
+//    단종상품	가격비교 비매칭 일반상품	8
+//    단종상품	가격비교 매칭 일반상품	9
+//    판매예정상품	가격비교 상품	10
+//    판매예정상품	가격비교 비매칭 일반상품	11
+//    판매예정상품	가격비교 매칭 일반상품	12
     public static String naverAPICall(String clientId, String clientSecret,String searchWord) {
-        String text = null;
+        String text = "";
         try {
             text = URLEncoder.encode(searchWord, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException("검색어 인코딩 실패",e);
         }
 
-
-        String apiURL = "https://openapi.naver.com/v1/search/shop.json?query=" + text;    // JSON 결과
-        //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // XML 결과
-
+        String apiURL = "https://openapi.naver.com/v1/search/shop.json?filter=naverpay&display=1&query=" + text;    // JSON 결과
 
         Map<String, String> requestHeaders = new HashMap<>();
         requestHeaders.put("X-Naver-Client-Id", clientId);
         requestHeaders.put("X-Naver-Client-Secret", clientSecret);
         String responseBody = get(apiURL,requestHeaders);
-
 
         return responseBody;
     }

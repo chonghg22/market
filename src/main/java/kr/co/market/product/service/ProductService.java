@@ -6,7 +6,5 @@ import kr.co.market.product.vo.LoginVo;
 import java.util.List;
 
 public interface ProductService {
-    void insertProduct(LoginVo loginInfo);
-
     public List<ProductDto> getSearchProduct(String searchWord);
 }

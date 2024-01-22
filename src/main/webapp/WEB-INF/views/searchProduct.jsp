@@ -80,26 +80,15 @@
         <!-- Table Header -->
         <thead>
         <tr>
-            <th scope="col">Image</th>
-            <th scope="col">Post Title</th>
-            <th scope="col">Description</th>
-            <th scope="col">Action</th>
+            <th scope="col">이미지</th>
+            <th scope="col">상품명</th>
+            <th scope="col">가격</th>
+            <th scope="col">상품타입</th>
+            <th scope="col">브랜드</th>
         </tr>
         </thead>
         <!-- Table Body -->
         <tbody id="postTable">
-        <!-- Sample Row -->
-        <tr>
-            <td>
-                <img src="https://via.placeholder.com/150" alt="Placeholder Image">
-            </td>
-            <td>Post Title 1</td>
-            <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
-            <td>
-                <a href="detail.html" class="btn btn-primary">Read More</a>
-            </td>
-        </tr>
-        <!-- Add more rows as needed -->
         </tbody>
     </table>
 </div>
@@ -140,18 +129,30 @@
 
         // 데이터 순회하며 행 추가
         for (var i = 0; i < data.length; i++) {
+            let productType='';
+            if(data[i].productType == '1' || data[i].productType == '2' || data[i].productType == '3'){
+                productType= '일반상품'
+            }else if(data[i].productType == '4' || data[i].productType == '5' || data[i].productType == '6'){
+                productType= '중고상품'
+            }else if(data[i].productType == '7' || data[i].productType == '8' || data[i].productType == '9'){
+                productType= '단종상품'
+            }else if(data[i].productType == '10' || data[i].productType == '11' || data[i].productType == '12'){
+                productType= '판매예정상품'
+            }
             var row = '<tr>' +
-                // '<td>' +
-                // '<img src="' + data[i].link + '" alt="Placeholder Image">' +
-                // '</td>' +
-                // <td>Post Title 1</td>
-                // <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
-                // <td>
-                //     <a href="detail.html" class="btn btn-primary">Read More</a>
-                // </td>
-                //     '<td>' + data[i].id + '</td>' +
-                    '<td>' + data[i].title + '</td>' +
-                //     '<td>' + data[i].body + '</td>' +
+                '<td style="display:flex;height: 250px;">' +
+                '<img src="' + data[i].image + '" alt="Placeholder Image">' +
+                '</td>' +
+                '<td>'+
+                    '<a href="' + data[i].link + '" class="btn btn-primary">' + data[i].title + '</a>'+
+                '</td>'+
+                '<td>' + data[i].lprice + '</td>' +
+                '<td>' + productType + '</td>' +
+                '<td>' + data[i].brand + '</td>' +
+                // '<td>' + data[i].category1 + '</td>' +
+                // '<td>' + data[i].category2 + '</td>' +
+                // '<td>' + data[i].category3 + '</td>' +
+                // '<td>' + data[i].category4 + '</td>' +
                 '</tr>';
             tbody.append(row);
         }

@@ -20,7 +20,7 @@ public class Product {
     private String link;
     private String image;
     private String lprice;
-    private String mallName;
+    private String mallName = "";
     private String productId;
     private String productType;
     private String brand;
